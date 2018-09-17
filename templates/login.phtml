@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Slim 3</title>
+        <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+        <link href='./static/main.css' rel='stylesheet' type='text/css'>
+    </head>
+    <body>
+        <h1>Custom PHP Login</h1>
+        <h3>Sample Hydra Integration</h3>
+        <? if (count($errors)): ?>
+        <ul>
+        <? foreach($errors as $err): ?>
+          <li class="error"><?= $err ?></li>
+        <? endforeach ?>
+        </ul>
+        <? endif ?>
+        <form action="/login" method="POST">
+          <input type="hidden" name="<?= $csfrNameKey ?>" value="<?= $csfrName ?>">
+          <input type="hidden" name="<?= $csfrValueKey ?>" value="<?= $csfrValue ?>">
+          <input type="hidden" name="challenge" value="<?= $challenge ?>">
+          <table>
+            <tr>
+                <td><label for="username">Username:</label></td>
+                <td><input type="text" id="username" name="username" value="<?= $username ?>">
+            </tr> 
+            <tr>
+                <td><label for="password">Password:</label></td>
+                <td><input type="password" id="password" name="password">
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: right;"><input name="Login" value="Login" type="submit" /></td>
+            </tr> 
+          </table>
+        </form>
+    </body>
+</html>

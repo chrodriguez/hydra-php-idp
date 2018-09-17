@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Slim 3</title>
+        <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+        <link href='./static/main.css' rel='stylesheet' type='text/css'>
+    </head>
+    <body>
+        <h1>An application request access to your data!</h1>
+        <h3>Sample Hydra Integration</h3>
+        <? if (count($errors)): ?>
+        <ul>
+        <? foreach($errors as $err): ?>
+          <li class="error"><?= $err ?></li>
+        <? endforeach ?>
+        </ul>
+        <? endif ?>
+        <form action="/consent" method="POST">
+          <input type="hidden" name="<?= $csfrNameKey ?>" value="<?= $csfrName ?>">
+          <input type="hidden" name="<?= $csfrValueKey ?>" value="<?= $csfrValue ?>">
+          <input type="hidden" name="challenge" value="<?= $challenge ?>">
+          <? if (isset($client->logo_uri)): ?>
+          <img src="<?=$client->logo_uri?>" />
+          <? endif ?>
+          <p>
+            Hi <strong><?= $user ?></strong>, application <strong><?= !empty($client->getClientName()) ? $client->getClientName() : $client->getClientId() ?></strong>
+            wants access resources on your behalf and to:
+          </p>
+          <? foreach($requested_scope as $scope): ?>
+            <input type="checkbox" id="<?= $scope ?>" value="<?= $scope ?>" name="grant_scope[]" checked="true"/>
+            <label for="<?= $scope ?>"><?= $scope ?></label>
+          <? endforeach ?>
+          <p>
+            Do you want to be asked next time when this application wants to access your data? The application will
+            not be able to ask for more permissions without your consent.
+          </p>
+          <ul>
+            <? if (isset($client->policy_uri)): ?>
+            <li><a href="<?= $client->policy_uri ?>">Policy</a></li>
+            <? endif ?>
+            <? if (isset($client->tos_uri)): ?>
+            <li><a href="<?= $client->tos_uri ?>">Terms of Service</a></li>
+            <? endif ?>
+          </ul>
+          <p>
+            <input type="checkbox" id="remember" name="remember" value="1" />
+            <label for="remember">Do not ask me again</label>
+          </p>
+          <p>
+            <input type="submit" name="submit" value="Allow access" />
+            <input type="submit" name="submit" value="Deny access" />
+          </p>
+        </form>
+    </body>
+</html>

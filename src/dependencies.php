@@ -26,3 +26,8 @@ $container['hydra'] = function ($c) {
     $c->get('logger')->debug("Initialized Hydra with host ". $config->getHost());
     return $hydra;
 };
+
+$container['csrf'] = function ($c) {
+    return new \Slim\Csrf\Guard;
+};
+
