@@ -1,27 +1,110 @@
-# Slim Framework 3 Skeleton Application
+# Sample ORY Hydra PHP integration
 
-Use this skeleton application to quickly setup and start working on a new Slim Framework 3 application. This application uses the latest Slim 3 with the PHP-View template renderer. It also uses the Monolog logger.
+This repo defines a sample login and consent PHP application to be used as
+starting point.
 
-This skeleton application was built for Composer. This makes setting up a new Slim Framework application quick and easy.
+## Requirements
 
-## Install the Application
+This example uses docker and docker-compose as main requirements. For testing
+purpose, the following ports will be opened on your machine:
 
-Run this command from the directory in which you want to install your new Slim Framework application.
+* *8000:* ORY/Hydra server public service without ssl
+* *4445:* ORY/Hydra server admin service without ssl
+* *9010:* Sample resource server created within admin console. _This will require
+  runing a command_
+* *8080:* sample PHP login and consent application provided by this repo
 
-    php composer.phar create-project slim/slim-skeleton [my-app-name]
+## Start your installation
 
-Replace `[my-app-name]` with the desired directory name for your new application. You'll want to:
+Clone this repo in a directory. And then change into that directory
 
-* Point your virtual host document root to your new application's `public/` directory.
-* Ensure `logs/` is web writeable.
+## Runing containers
 
-To run the application in development, you can run these commands 
+The `docker-compose.yml` file provided is mainly used for a development envinronment.
+As PHP composer libraries are not versioned, you need to download them. To do
+that there is a command to help you do that, without installing PHP on your
+system:
 
-	cd [my-app-name]
-	php composer.phar start
+```
+ ./bin/composer-update-sh
+```
 
-Run this command in the application directory to run the test suite
+When this command ends, all required libraries will be downloaded, and
+everything will be ready to start your demo.
 
-	php composer.phar test
+## Starting the whole demo
 
-That's it! Now go build something cool.
+Simply run:
+
+```
+ docker-compose -p hydra up
+```
+
+All docker images will be downloaded and a mysql database will be populated with
+hydra required tables an data. When all containers bootstrap, everything will be
+running. But there are two step that must be run manually:
+
+### Create a sample Oauth2 Client or resource server
+
+There is a helper command to do this:
+
+```
+  ./bin/hydra-setup-client.sh
+```
+
+This command defines an Oauth2 client or resource server with:
+
+* *Client id:* sample-hydra-app-photo-resources
+* *Callback:* Return address configured as valid. It is set to http://localhost:9010/callback
+  * _Note that this callback is provided by hydra using the other script_
+* *Scope:* the scope the client is allowd to request. It is set to
+  _openid,offline,photos.read_
+* *Secret:* client's secret. It is set to _some-secret_
+* *Grant types:* a list of allowed grant types. Is is set to
+  _authorization_code,refresh_token,client_credentials,implicit_
+* *Response types:* a list of response types. It is set to _token,code,id_token_
+
+> If command is run twice, or more times, it will fail because client with that
+> ID exists. You shall delete the previous created client
+
+### Starts a web server that initiates and handles OAuth 2.0 requests
+
+After creating the client, a sample client application can be emulated using hydra.
+There is a helper command to do this:
+
+```
+  ./bin/hydra-setup-sample-app.sh
+```
+
+This command starts a sample application that will request authorization to
+hydra
+
+* *HTTP port:* 9010
+* *Auth-url:* Authorization endpoint. It is set to http://localhost:8000/oauth2/auth
+  * _This is our hydra server_
+* *Token url:* Token requests endpoint. It is set to http://hydra-server:4444/oauth2/token
+* *Client id:* name of the client, It is set to _sample-hydra-app-photo-resources_
+* *Client secret:* client secret. It is set to _some-secret_
+* *Scope:* wich copes are required. It is set to _openid,offline,photos.read_
+
+
+## Test the integration example
+
+* Access http://localhost:9010. It will presents you a link to authorize
+  application
+* Enter your credentials. In this example there is only one user: admin/admin
+* After successful login, there will be a consent page that must be accepted
+* When consent is accepted, hydra will redirect us to the configured callback,
+  where all OAuth2 information is printed
+
+## Restart all this demo
+
+In order to restart this demo you shall:
+
+* Stop the containers once started, and remove them: `docker-compose -p hydra
+  down`
+* Remove any used volume: `docker volume rm <vol1> <vol2>` or simply run `docker
+  volume prune`
+
+
+
