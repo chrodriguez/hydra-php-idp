@@ -8,11 +8,11 @@ starting point.
 This example uses docker and docker-compose as main requirements. For testing
 purpose, the following ports will be opened on your machine:
 
-* *8000:* ORY/Hydra server public service without ssl
-* *4445:* ORY/Hydra server admin service without ssl
-* *9010:* Sample resource server created within admin console. _This will require
+* **8000:** ORY/Hydra server public service without ssl
+* **4445:** ORY/Hydra server admin service without ssl
+* **9010:** Sample resource server created within admin console. _This will require
   runing a command_
-* *8080:* sample PHP login and consent application provided by this repo
+* **8080:** sample PHP login and consent application provided by this repo
 
 ## Start your installation
 
@@ -54,15 +54,15 @@ There is a helper command to do this:
 
 This command defines an Oauth2 client or resource server with:
 
-* *Client id:* sample-hydra-app-photo-resources
-* *Callback:* Return address configured as valid. It is set to http://localhost:9010/callback
+* **Client id:** sample-hydra-app-photo-resources
+* **Callback:** Return address configured as valid. It is set to http://localhost:9010/callback
   * _Note that this callback is provided by hydra using the other script_
-* *Scope:* the scope the client is allowd to request. It is set to
+* **Scope:** the scope the client is allowd to request. It is set to
   _openid,offline,photos.read_
-* *Secret:* client's secret. It is set to _some-secret_
-* *Grant types:* a list of allowed grant types. Is is set to
+* **Secret:** client's secret. It is set to _some-secret_
+* **Grant types:** a list of allowed grant types. Is is set to
   _authorization_code,refresh_token,client_credentials,implicit_
-* *Response types:* a list of response types. It is set to _token,code,id_token_
+* **Response types:** a list of response types. It is set to _token,code,id_token_
 
 > If command is run twice, or more times, it will fail because client with that
 > ID exists. You shall delete the previous created client
@@ -79,13 +79,13 @@ There is a helper command to do this:
 This command starts a sample application that will request authorization to
 hydra
 
-* *HTTP port:* 9010
-* *Auth-url:* Authorization endpoint. It is set to http://localhost:8000/oauth2/auth
+* **HTTP port:** 9010
+* **Auth-url:** Authorization endpoint. It is set to http://localhost:8000/oauth2/auth
   * _This is our hydra server_
-* *Token url:* Token requests endpoint. It is set to http://hydra-server:4444/oauth2/token
-* *Client id:* name of the client, It is set to _sample-hydra-app-photo-resources_
-* *Client secret:* client secret. It is set to _some-secret_
-* *Scope:* wich copes are required. It is set to _openid,offline,photos.read_
+* **Token url:** Token requests endpoint. It is set to http://hydra-server:4444/oauth2/token
+* **Client id:** name of the client, It is set to _sample-hydra-app-photo-resources_
+* **Client secret:** client secret. It is set to _some-secret_
+* **Scope:** wich copes are required. It is set to _openid,offline,photos.read_
 
 
 ## Test the integration example
