@@ -3,20 +3,32 @@ version: '2'
 volumes:
   logs:
   hydra-db:
+  slim-db:
 services:
   slim:
-    image: php:7-alpine
+    build: .
     working_dir: /var/www
     command: php -S 0.0.0.0:8080 -t public
     environment:
       DEBUG: "true"
       docker: "true"
       HYDRA_HOST: 'http://hydra-server:4445'
+      DB_PASSWORD: userspass
+      DB_HOST: 'slim-db'
+      DB_NAME: 'users'
     ports:
       - "8080:8080"
     volumes:
       - .:/var/www
       - logs:/var/www/logs
+  slim-db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: userspass
+      MYSQL_DATABASE: users
+    volumes:
+      - slim-db:/var/lib/mysql
+      - ./db/slim-db-scripts:/docker-entrypoint-initdb.d
   hydra-migrate:
     image: oryd/hydra:v1.0.0-beta.9-alpine
     links:

@@ -50,10 +50,10 @@ $app->post('/login[/]', function (Request $request, Response $response, array $a
     if (is_null($challenge)) {
       array_push($errors, "Empty login challenge not allowed");
     } else {
-      if ( !strcmp($username, 'admin') && !strcmp($password, 'admin')) {
-      }else {
-        array_push($errors, "Username or password incorrect");
-      }
+      $stm = $this->db->prepare($this->auth_sql);
+      $stm->execute([':username' => $username, ':password' => $password]);
+      $res = $stm->fetchAll(); 
+      if (count($res) != 1) array_push($errors, "Username or password incorrect");
     }
     try {
       if ( count($errors) == 0 ) {

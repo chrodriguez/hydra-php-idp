@@ -92,7 +92,15 @@ hydra
 
 * Access http://localhost:9010. It will presents you a link to authorize
   application
-* Enter your credentials. In this example there is only one user: admin/admin
+* Add sample users to idp database:
+
+```
+docker-compose -p hydra exec slim-db
+mysql -p$MYSQL_ROOT_PASSWORD users
+insert into users(username,password,firstname,lastname, admin) values('admin', '1234,'Admin','Application', true);
+```
+
+* Enter your credentials. In this example there is only one user: admin/1234
 * After successful login, there will be a consent page that must be accepted
 * When consent is accepted, hydra will redirect us to the configured callback,
   where all OAuth2 information is printed

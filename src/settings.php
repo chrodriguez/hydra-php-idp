@@ -18,6 +18,13 @@ return [
         ],
         'hydra' => [
           'host' => isset($_ENV['HYDRA_HOST']) ? $_ENV['HYDRA_HOST'] : 'http://localhost:4445'
+        ],
+        'db' => [
+          'host'      => isset($_ENV['DB_HOST']) ? $_ENV['DB_HOST'] : 'localhost',
+          'name'      => isset($_ENV['DB_NAME']) ? $_ENV['DB_NAME'] : 'idp-sample',
+          'username'  => isset($_ENV['DB_USERNAME']) ? $_ENV['DB_USERNAME'] : 'root',
+          'password'  => isset($_ENV['DB_PASSWORD']) ? $_ENV['DB_PASSWORD'] : '',
+          'auth-sql-query'  => isset($_ENV['AUTH_SQL_QUERY']) ? $_ENV['AUTH_SQL_QUERY'] : 'select * from users where username=:username and password=:password'
         ]
     ],
 ];
