@@ -1,6 +1,7 @@
 FROM php:7-apache
 RUN docker-php-ext-install mysqli && \
-    docker-php-ext-install pdo_mysql
+    docker-php-ext-install pdo_mysql \
+    a2enmod rewrite
 ADD . /app
 
 ENV APACHE_DOCUMENT_ROOT /app/public

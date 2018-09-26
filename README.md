@@ -97,7 +97,7 @@ hydra
 ```
 docker-compose -p hydra exec slim-db
 mysql -p$MYSQL_ROOT_PASSWORD users
-insert into users(username,password,firstname,lastname, admin) values('admin', '1234,'Admin','Application', true);
+insert into users(username,password,firstname,lastname, admin) values('admin', '1234','Admin','Application', true);
 ```
 
 * Enter your credentials. In this example there is only one user: admin/1234
