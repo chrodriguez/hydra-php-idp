@@ -7,7 +7,6 @@ volumes:
 services:
   slim:
     build: .
-    working_dir: /var/www
     command: php -S 0.0.0.0:8080 -t public
     environment:
       DEBUG: "true"
@@ -19,8 +18,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - .:/var/www
-      - logs:/var/www/logs
+      - .:/app
   slim-db:
     image: mysql:5.7
     environment:
