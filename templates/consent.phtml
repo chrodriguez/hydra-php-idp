@@ -20,11 +20,12 @@
           <input type="hidden" name="<?= $csfrNameKey ?>" value="<?= $csfrName ?>">
           <input type="hidden" name="<?= $csfrValueKey ?>" value="<?= $csfrValue ?>">
           <input type="hidden" name="challenge" value="<?= $challenge ?>">
+          <input type="hidden" name="username" value="<?= $username ?>">
           <? if (isset($client->logo_uri)): ?>
           <img src="<?=$client->logo_uri?>" />
           <? endif ?>
           <p>
-            Hi <strong><?= $user ?></strong>, application <strong><?= !empty($client->getClientName()) ? $client->getClientName() : $client->getClientId() ?></strong>
+            Hi <strong><?= $username ?></strong>, application <strong><?= !empty($client->getClientName()) ? $client->getClientName() : $client->getClientId() ?></strong>
             wants access resources on your behalf and to:
           </p>
           <? foreach($requested_scope as $scope): ?>
@@ -44,7 +45,7 @@
             <? endif ?>
           </ul>
           <p>
-            <input type="checkbox" id="remember" name="remember" value="1" />
+            <input type="checkbox" id="remember" name="remember" checked />
             <label for="remember">Do not ask me again</label>
           </p>
           <p>

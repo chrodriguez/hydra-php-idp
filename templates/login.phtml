@@ -30,7 +30,11 @@
                 <td><input type="password" id="password" name="password">
             </tr>
             <tr>
-                <td colspan="2" style="text-align: right;"><input name="Login" value="Login" type="submit" /></td>
+                <td>
+                <input type="checkbox" id="remember" name="remember" <?= $remember ? 'checked': '' ?> />
+                  <label for="remember">Remember me</label>
+                </td>
+                <td style="text-align: right;"><input name="Login" value="Login" type="submit" /></td>
             </tr> 
           </table>
         </form>

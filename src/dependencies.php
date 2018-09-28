@@ -1,4 +1,6 @@
 <?php
+require __DIR__.'/hydra_adapter.php';
+
 // DIC configuration
 
 $container = $app->getContainer();
@@ -44,3 +46,28 @@ $container['auth_sql'] = function($c) {
     $settings = $c->get('settings')['db'];
     return $settings['auth-sql-query'];
 };
+
+$container['userinfo_sql'] = function($c) {
+    $settings = $c->get('settings')['db'];
+    return $settings['userinfo-sql-query'];
+};
+
+$container['loginRememberFor'] = function($c) {
+    $settings = $c->get('settings')['hydra'];
+    return intval($settings['login_remember_for']);
+};
+
+$container['consentRememberFor'] = function($c) {
+    $settings = $c->get('settings')['hydra'];
+    return intval($settings['consent_remember_for']);
+};
+
+$container['hydraAdapter'] = function($c) {
+  return new HydraAdapter(array(
+    'pdo' => $c->get('db'),
+    'user_sql' => $c->get('userinfo_sql'),
+    'auth_sql' => $c->get('auth_sql'),
+  ));
+};
+
+
